@@ -41,6 +41,7 @@ public class Util {
                 Configuration configuration = new Configuration();
 
                 Properties settings = new Properties();
+                //settings.put(Environment.DRIVER, DRIVER);
                 settings.put(Environment.URL, "jdbc:mysql://localhost:3306/usersdb?useSSL=false");
                 settings.put(Environment.USER, USERNAME);
                 settings.put(Environment.PASS, PASSWORD);

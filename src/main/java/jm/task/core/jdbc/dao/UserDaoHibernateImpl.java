@@ -5,10 +5,12 @@ import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
+
     public UserDaoHibernateImpl() {
 
     }
@@ -74,21 +76,13 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Transaction transaction = null;
         List<User> userList = null;
         try (Session session = Util.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-
-            userList = session.createQuery("from User").getResultList();
-            for (User e : userList)
-                System.out.println(e);
-
-            session.getTransaction().commit();
+            TypedQuery<User> typedQuery = session.createQuery("from User");
+            userList = typedQuery.getResultList();
+            userList.forEach(System.out::println);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-                throw e;
-            }
+            e.printStackTrace();
         }
         return userList;
     }
